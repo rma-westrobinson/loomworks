@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Corner Market — Theme Demo</title>
+<meta name="description" content="Example theme: clean modern storefront style. Fictional business, built to demonstrate a starting design direction.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f7f6f2;
+  --paper-dim: #efeee7;
+  --ink: #14151a;
+  --ink-soft: #54555e;
+  --ink-mute: #8c8d94;
+  --white: #ffffff;
+  --indigo: #4b3df0;
+  --indigo-deep: #2f22c9;
+  --indigo-pale: #ebe9fd;
+  --amber: #ffb703;
+  --amber-deep: #e6a300;
+  --line: #e4e2da;
+
+  --display: 'Bricolage Grotesque', sans-serif;
+  --body: 'Inter', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --max: 1160px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+button { font-family: var(--body); cursor: pointer; }
+
+.w { max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.reveal.in { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+/* ---- demo banner ---- */
+.demo-stack { position: sticky; top: 0; z-index: 60; }
+.demo-banner {
+  background: var(--ink); color: var(--paper); padding: 9px 20px;
+  font-family: var(--mono); font-size: 12px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.demo-banner__text { color: rgba(247,246,242,0.7); }
+.demo-banner__ctas { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+.demo-banner__link {
+  color: rgba(247,246,242,0.75); text-decoration: none; font-weight: 500;
+  transition: color 0.2s var(--ease);
+}
+.demo-banner__link:hover { color: var(--white); }
+.demo-banner__book {
+  background: var(--amber); color: var(--ink); text-decoration: none;
+  font-weight: 700; padding: 5px 12px; border-radius: 20px;
+  transition: background 0.2s var(--ease);
+}
+.demo-banner__book:hover { background: var(--amber-deep); }
+@media (max-width: 640px) {
+  .demo-banner { justify-content: center; text-align: center; }
+  .demo-banner__text { display: none; }
+}
+
+/* ---- header ---- */
+.hd {
+  background: rgba(247, 246, 242, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.hd-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.hd-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--display); font-weight: 700; font-size: 18px;
+  letter-spacing: -0.3px; text-decoration: none; color: var(--ink);
+}
+.hd-brand .mark {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-deep) 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--white); font-size: 14px; font-weight: 700;
+}
+.hd-nav { display: flex; gap: 4px; align-items: center; }
+.hd-nav a {
+  font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none;
+  padding: 8px 16px; border-radius: 20px; transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.hd-nav a:hover { background: var(--paper-dim); color: var(--ink); }
+.hd-cta {
+  background: var(--ink); color: var(--white); font-size: 14px; font-weight: 600;
+  padding: 10px 20px; border-radius: 20px; margin-left: 8px; text-decoration: none;
+  transition: background 0.2s var(--ease);
+}
+.hd-cta:hover { background: var(--indigo-deep); }
+.hd-toggle { display: none; background: var(--ink); color: var(--white); padding: 8px 14px; border-radius: 20px; font-size: 13px; border: none; }
+
+@media (max-width: 760px) {
+  .hd-nav { display: none; position: absolute; top: 68px; left: 0; right: 0; background: var(--paper); flex-direction: column; align-items: stretch; padding: 12px 28px 20px; border-bottom: 1px solid var(--line); gap: 6px; }
+  .hd-nav.open { display: flex; }
+  .hd-nav a { padding: 10px 4px; }
+  .hd-cta { margin: 8px 4px 0; text-align: center; }
+  .hd-toggle { display: inline-block; }
+}
+
+/* ---- hero ---- */
+.hero { padding: 76px 0 60px; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 44px; } .hero { padding: 48px 0 40px; } }
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--indigo-deep);
+  background: var(--indigo-pale); padding: 7px 14px; border-radius: 20px;
+  margin-bottom: 22px;
+}
+.hero-eyebrow .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--indigo); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+.hero h1 {
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(38px, 5.5vw, 60px); line-height: 1.04; letter-spacing: -1.5px;
+  margin-bottom: 22px;
+}
+.hero h1 .hl { color: var(--indigo); }
+
+.hero-sub { font-size: 18px; color: var(--ink-soft); max-width: 48ch; margin-bottom: 32px; }
+
+.hero-meta { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 32px; }
+.hero-meta dt { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--indigo-deep); margin-bottom: 4px; font-weight: 600; }
+.hero-meta dd { font-size: 14px; color: var(--ink-soft); }
+
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-weight: 600; font-size: 15px; padding: 13px 26px; border-radius: 30px;
+  text-decoration: none; border: none; transition: transform 0.25s var(--ease), background 0.2s var(--ease), box-shadow 0.25s var(--ease);
+}
+.btn-fill { background: var(--ink); color: var(--white); }
+.btn-fill:hover { background: var(--indigo-deep); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(75,61,240,0.28); }
+.btn-amber { background: var(--amber); color: var(--ink); }
+.btn-amber:hover { background: var(--amber-deep); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,183,3,0.35); }
+.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+.btn-outline:hover { border-color: var(--ink); transform: translateY(-2px); }
+
+/* ---- shop window signature graphic ---- */
+.window {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--ink);
+  box-shadow: 0 30px 70px rgba(20,21,26,0.18);
+}
+.window-grid {
+  position: absolute; inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 3px;
+  padding: 3px;
+}
+.pane {
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  animation: paneIn 0.6s var(--ease) both;
+}
+.pane::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.16), transparent 60%);
+}
+@keyframes paneIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+.pane.p1 { background: var(--indigo); animation-delay: 0.05s; }
+.pane.p2 { background: #2a2b33; animation-delay: 0.1s; }
+.pane.p3 { background: var(--amber); animation-delay: 0.15s; }
+.pane.p4 { background: #2a2b33; animation-delay: 0.2s; }
+.pane.p5 { background: var(--indigo-deep); animation-delay: 0.25s; grid-column: span 2; }
+.pane.p6 { background: #363842; animation-delay: 0.3s; }
+.pane.p7 { background: var(--amber-deep); animation-delay: 0.35s; }
+.pane.p8 { background: var(--indigo); animation-delay: 0.4s; grid-column: span 2; }
+.pane.p9 { background: #2a2b33; animation-delay: 0.45s; }
+.pane.p10 { background: #363842; animation-delay: 0.5s; }
+
+.window-label {
+  position: absolute; bottom: 16px; left: 16px; right: 16px;
+  background: rgba(20,21,26,0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: var(--white);
+  z-index: 2;
+}
+.window-label .l1 { font-family: var(--mono); font-size: 11px; color: var(--amber); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.window-label .l2 { font-family: var(--display); font-size: 15px; font-weight: 700; }
+
+/* ---- towns / trust marquee ---- */
+.marquee { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--paper-dim); padding: 16px 0; overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-block; animation: scroll-left 26s linear infinite; }
+.marquee-track span { font-family: var(--mono); font-size: 13px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.08em; margin-right: 40px; }
+.marquee-track span::after { content: "·"; margin-left: 40px; color: var(--indigo); }
+@keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+
+/* ---- sections ---- */
+section { padding: 88px 0; }
+.section-head { margin-bottom: 44px; }
+.section-label { font-family: var(--mono); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--indigo-deep); margin-bottom: 12px; }
+.section-title { font-family: var(--display); font-size: clamp(28px, 4.2vw, 40px); font-weight: 700; letter-spacing: -1px; margin-bottom: 14px; line-height: 1.06; }
+.section-desc { font-size: 16px; color: var(--ink-soft); max-width: 58ch; }
+
+.stock-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
+.stock-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 700px) { .stock-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .stock-grid { grid-template-columns: 1fr; } }
+
+.stock-card {
+  background: var(--white); border: 1px solid var(--line); border-radius: 14px;
+  padding: 24px; transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.stock-card:hover { border-color: var(--indigo); box-shadow: 0 12px 30px rgba(75,61,240,0.1); transform: translateY(-3px); }
+.stock-card h3 { font-family: var(--display); font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.stock-card p { font-size: 14px; color: var(--ink-soft); margin-bottom: 14px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px;
+  font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--indigo-deep);
+  background: var(--indigo-pale); padding: 4px 10px; border-radius: 6px;
+}
+.badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--indigo); }
+
+/* ---- booking ---- */
+.booking { background: var(--ink); color: var(--paper); }
+.booking .section-label { color: var(--amber); }
+.booking .section-desc { color: rgba(247,246,242,0.62); }
+
+.cal-wrap { background: #1e1f26; border: 1px solid rgba(247,246,242,0.1); border-radius: 20px; padding: 36px; max-width: 540px; }
+@media (max-width: 600px) { .cal-wrap { padding: 22px; } }
+.cal-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+.cal-hd h3 { font-family: var(--display); font-size: 18px; font-weight: 700; }
+.cal-nav { display: flex; gap: 6px; }
+.cal-nav button {
+  background: rgba(247,246,242,0.06); border: 1px solid rgba(247,246,242,0.14); color: var(--paper);
+  width: 36px; height: 36px; border-radius: 10px; font-size: 14px; transition: all 0.15s var(--ease);
+}
+.cal-nav button:hover { background: var(--indigo); border-color: var(--indigo); }
+
+.cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 8px; }
+.cal-wd { text-align: center; font-family: var(--mono); font-size: 11px; font-weight: 500; color: rgba(247,246,242,0.4); text-transform: uppercase; padding: 6px 0; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 22px; }
+.cal-day {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 500; border-radius: 8px; cursor: pointer;
+  background: rgba(247,246,242,0.04); color: rgba(247,246,242,0.55); border: 1.5px solid transparent;
+  transition: all 0.15s var(--ease);
+}
+.cal-day:hover:not(.cal-empty):not(.cal-off) { border-color: var(--indigo); color: var(--white); }
+.cal-day.cal-on { background: var(--indigo); color: var(--white); font-weight: 700; }
+.cal-day.cal-on:hover { background: var(--indigo-deep); }
+.cal-day.cal-empty { background: transparent; cursor: default; }
+.cal-day.cal-off { opacity: 0.25; cursor: not-allowed; }
+.cal-day.cal-picked { background: var(--amber) !important; color: var(--ink) !important; transform: scale(1.08); }
+
+.cal-times { padding-top: 20px; border-top: 1px solid rgba(247,246,242,0.1); display: none; }
+.cal-times.show { display: block; }
+.cal-times h4 { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--amber); margin-bottom: 12px; }
+.cal-slots { display: flex; gap: 8px; flex-wrap: wrap; }
+.cal-slot {
+  background: rgba(247,246,242,0.05); border: 1.5px solid rgba(247,246,242,0.14); color: var(--paper);
+  font-family: var(--mono); font-size: 13px; padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: all 0.15s var(--ease);
+}
+.cal-slot:hover { border-color: var(--amber); color: var(--amber); }
+.cal-slot.picked { background: var(--amber); color: var(--ink); border-color: var(--amber); }
+
+.cal-confirm { display: none; margin-top: 18px; padding: 14px 18px; background: rgba(75,61,240,0.18); border: 1px solid var(--indigo); border-radius: 10px; font-size: 14px; }
+.cal-confirm.show { display: block; }
+
+/* ---- about ---- */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+@media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
+.about-text p { color: var(--ink-soft); margin-bottom: 16px; font-size: 15px; line-height: 1.75; }
+.about-text p strong { color: var(--ink); font-weight: 600; }
+
+.about-card { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 32px; }
+.about-card h3 { font-family: var(--display); font-size: 16px; font-weight: 700; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; gap: 12px; }
+.info-row:last-child { border-bottom: none; }
+.info-row dt { color: var(--ink-mute); font-weight: 500; }
+.info-row dd { font-weight: 600; text-align: right; }
+
+/* ---- contact ---- */
+.contact { background: var(--indigo); color: var(--white); text-align: center; }
+.contact .section-title { color: var(--white); }
+.contact .section-desc { color: rgba(255,255,255,0.75); margin: 0 auto 32px; }
+.contact .section-label { color: var(--amber); }
+
+/* ---- footer ---- */
+.ft { padding: 32px 0; border-top: 1px solid var(--line); }
+.ft-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.ft-brand { font-family: var(--display); font-weight: 700; font-size: 14px; }
+.ft-fine { font-family: var(--mono); font-size: 12px; color: var(--ink-mute); }
+
+a:focus-visible, button:focus-visible { outline: 2px solid var(--indigo); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+</style>
+</head>
+<body>
+<div class="demo-stack">
+  <div class="demo-banner">
+    <span class="demo-banner__text">THEME DEMO — The Corner Market is a fictional business, built to show this design direction</span>
+    <span class="demo-banner__ctas">
+      <a href="index.html" class="demo-banner__link">&larr; Loomworks</a>
+      <a href="https://calendly.com/hello-loomworks/15min" target="_blank" rel="noopener" class="demo-banner__book">Book a 15-min call</a>
+    </span>
+  </div>
+
+  <!-- Header -->
+  <header class="hd">
+    <div class="w hd-inner">
+      <a class="hd-brand" href="#top"><span class="mark">CM</span>The Corner Market</a>
+      <nav class="hd-nav" id="nav">
+        <a href="#stock">What's In Stock</a>
+        <a href="#book">Book a Visit</a>
+        <a href="#about">About</a>
+        <a class="hd-cta" href="#contact">Get in touch</a>
+      </nav>
+      <button class="hd-toggle" id="navToggle">Menu</button>
+    </div>
+  </header>
+</div>
+
+<!-- Hero -->
+<section class="hero" id="top">
+  <div class="w hero-grid">
+    <div>
+      <div class="hero-eyebrow reveal"><span class="pulse"></span>Open 7 days a week</div>
+      <h1 class="reveal">Everything your <span class="hl">neighborhood</span> needs, in one storefront</h1>
+      <p class="hero-sub reveal">The Corner Market carries fresh groceries and local goods from the surrounding region. No off-season, no shortened hours, just what you need, close by.</p>
+
+      <dl class="hero-meta reveal">
+        <div><dt>Hours</dt><dd>10am – 4pm, every day</dd></div>
+        <div><dt>Location</dt><dd>142 Market Street<br>Fictional, ON A1B 2C3</dd></div>
+      </dl>
+
+      <div class="hero-ctas reveal">
+        <a class="btn btn-fill" href="#book">Book a Visit</a>
+        <a class="btn btn-outline" href="#stock">See What's In Stock</a>
+      </div>
+    </div>
+
+    <div class="window reveal">
+      <div class="window-grid">
+        <div class="pane p1"></div>
+        <div class="pane p2"></div>
+        <div class="pane p3"></div>
+        <div class="pane p4"></div>
+        <div class="pane p5"></div>
+        <div class="pane p6"></div>
+        <div class="pane p7"></div>
+        <div class="pane p8"></div>
+        <div class="pane p9"></div>
+        <div class="pane p10"></div>
+      </div>
+      <div class="window-label">
+        <div class="l1">Storefront theme</div>
+        <div class="l2">Clean, modern, built to look established from day one</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Fresh Daily</span><span>Local Suppliers</span><span>Open Every Day</span><span>No Off-Season</span><span>Community Owned</span>
+    <span>Fresh Daily</span><span>Local Suppliers</span><span>Open Every Day</span><span>No Off-Season</span><span>Community Owned</span>
+  </div>
+</div>
+
+<!-- Stock -->
+<section id="stock">
+  <div class="w">
+    <div class="stock-head">
+      <div class="reveal">
+        <div class="section-label">Updated weekly</div>
+        <h2 class="section-title">What's In Stock</h2>
+      </div>
+      <p class="section-desc reveal">Inventory changes with the season. Call ahead at <a href="tel:555-0182" style="color:var(--indigo-deep);font-weight:600;text-decoration:none;">555-0182</a> if you need something specific.</p>
+    </div>
+
+    <div class="stock-grid">
+      <div class="stock-card reveal"><h3>Fresh Produce</h3><p>Seasonal fruit and vegetables, restocked daily.</p><div class="badge">Available</div></div>
+      <div class="stock-card reveal"><h3>Bakery</h3><p>Bread and pastries baked fresh each morning.</p><div class="badge">Available</div></div>
+      <div class="stock-card reveal"><h3>Dairy &amp; Eggs</h3><p>Local dairy, free-range eggs.</p><div class="badge">Available</div></div>
+      <div class="stock-card reveal"><h3>Pantry Staples</h3><p>Grains, oils, and everyday essentials.</p><div class="badge">Available</div></div>
+      <div class="stock-card reveal"><h3>Local Goods</h3><p>Preserves, honey, and small-batch items.</p><div class="badge">Available</div></div>
+      <div class="stock-card reveal"><h3>Flowers</h3><p>Fresh cut bouquets, restocked weekly.</p><div class="badge">Available</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Booking -->
+<section class="booking" id="book">
+  <div class="w">
+    <div class="section-head reveal">
+      <div class="section-label">Reserve your time</div>
+      <h2 class="section-title">Book a Visit</h2>
+      <p class="section-desc">Select a date and time below. Useful for bulk orders, group visits, or confirming we have what you need before you come by.</p>
+    </div>
+
+    <div class="cal-wrap reveal">
+      <div class="cal-hd">
+        <h3 id="calMonth">July 2026</h3>
+        <div class="cal-nav">
+          <button onclick="calPrev()" aria-label="Previous month">&larr;</button>
+          <button onclick="calNext()" aria-label="Next month">&rarr;</button>
+        </div>
+      </div>
+      <div class="cal-weekdays">
+        <div class="cal-wd">Sun</div><div class="cal-wd">Mon</div><div class="cal-wd">Tue</div>
+        <div class="cal-wd">Wed</div><div class="cal-wd">Thu</div><div class="cal-wd">Fri</div><div class="cal-wd">Sat</div>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-times" id="calTimes">
+        <h4 id="calDateLabel">Select a date</h4>
+        <div class="cal-slots" id="calSlots"></div>
+      </div>
+      <div class="cal-confirm" id="calConfirm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="w about-grid">
+    <div class="about-text reveal">
+      <div class="section-label">About us</div>
+      <h2 class="section-title">A storefront that runs on being reliable</h2>
+      <p>The Corner Market started with one goal, be the place people can count on for what they need without planning a special trip. That means staying open every day and keeping shelves stocked with what the neighborhood actually reaches for.</p>
+      <p><strong>We source locally where it makes sense.</strong> Shorter supply chains mean fresher stock and prices that reflect quality rather than shipping costs.</p>
+      <p><strong>We're small enough to notice.</strong> If you want something we don't carry, ask. We'll tell you if we can get it.</p>
+    </div>
+
+    <div class="about-card reveal">
+      <h3>Quick Reference</h3>
+      <dl>
+        <div class="info-row"><dt>Hours</dt><dd>10am – 4pm</dd></div>
+        <div class="info-row"><dt>Days</dt><dd>Every day</dd></div>
+        <div class="info-row"><dt>Holidays</dt><dd>Open</dd></div>
+        <div class="info-row"><dt>Address</dt><dd>142 Market Street<br>Fictional, ON A1B 2C3</dd></div>
+        <div class="info-row"><dt>Phone</dt><dd><a href="tel:555-0182" style="color:var(--indigo-deep);text-decoration:none;">555-0182</a></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="w">
+    <div class="section-head reveal" style="margin: 0 auto;">
+      <div class="section-label">Get started</div>
+      <h2 class="section-title">This could be your storefront</h2>
+      <p class="section-desc">This is a theme demo, not a live business. If this direction fits what you're picturing, this is the starting point I'd customize for you.</p>
+    </div>
+    <div class="hero-ctas reveal" style="justify-content:center;">
+      <a class="btn btn-amber" href="mailto:hello@norfolkwebco.ca">hello@norfolkwebco.ca</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="ft">
+  <div class="w ft-inner">
+    <div class="ft-brand">The Corner Market</div>
+    <div class="ft-fine">Fictional business — theme demo built by Norfolk Web Co</div>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('nav');
+  toggle.addEventListener('click', () => nav.classList.toggle('open'));
+
+  let cMonth = new Date().getMonth();
+  let cYear = new Date().getFullYear();
+  let cDate = null;
+  const mNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const cTimes = ['10:00am','11:00am','12:00pm','1:00pm','2:00pm','3:00pm'];
+
+  function calRender() {
+    const first = new Date(cYear, cMonth, 1).getDay();
+    const days = new Date(cYear, cMonth + 1, 0).getDate();
+    const today = new Date();
+    document.getElementById('calMonth').textContent = `${mNames[cMonth]} ${cYear}`;
+    const grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+    for (let i = 0; i < first; i++) {
+      const d = document.createElement('div');
+      d.className = 'cal-day cal-empty';
+      grid.appendChild(d);
+    }
+    for (let i = 1; i <= days; i++) {
+      const d = document.createElement('div');
+      const dt = new Date(cYear, cMonth, i);
+      const past = dt < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      d.textContent = i;
+      d.className = 'cal-day';
+      if (past) { d.classList.add('cal-off'); }
+      else { d.classList.add('cal-on'); d.addEventListener('click', () => calPick(i, d)); }
+      grid.appendChild(d);
+    }
+    document.getElementById('calTimes').classList.remove('show');
+    document.getElementById('calConfirm').classList.remove('show');
+  }
+
+  function calPick(day, el) {
+    document.querySelectorAll('.cal-day.cal-picked').forEach(d => d.classList.remove('cal-picked'));
+    el.classList.add('cal-picked');
+    cDate = new Date(cYear, cMonth, day);
+    const opts = { weekday: 'long', month: 'long', day: 'numeric' };
+    document.getElementById('calDateLabel').textContent = 'Times for ' + cDate.toLocaleDateString('en-US', opts);
+    document.getElementById('calTimes').classList.add('show');
+    document.getElementById('calConfirm').classList.remove('show');
+    const slots = document.getElementById('calSlots');
+    slots.innerHTML = '';
+    cTimes.forEach(t => {
+      const s = document.createElement('div');
+      s.className = 'cal-slot';
+      s.textContent = t;
+      s.addEventListener('click', () => calConfirm(t, s));
+      slots.appendChild(s);
+    });
+  }
+
+  function calConfirm(time, el) {
+    document.querySelectorAll('.cal-slot.picked').forEach(s => s.classList.remove('picked'));
+    el.classList.add('picked');
+    const opts = { weekday: 'long', month: 'long', day: 'numeric' };
+    const dateStr = cDate.toLocaleDateString('en-US', opts);
+    const c = document.getElementById('calConfirm');
+    c.textContent = `You're booked for ${dateStr} at ${time}. We'll have it ready.`;
+    c.classList.add('show');
+  }
+
+  function calPrev() { cMonth--; if (cMonth < 0) { cMonth = 11; cYear--; } calRender(); }
+  function calNext() { cMonth++; if (cMonth > 11) { cMonth = 0; cYear++; } calRender(); }
+  calRender();
+
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
